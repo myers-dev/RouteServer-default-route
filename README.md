@@ -38,7 +38,7 @@ You must create SSH keys in advance and upload them to Azure SSH keys. The same 
 
 ## Deployment
 
-Go to the infrastructure folder and run, as usual
+From the infrastructure folder run the following commands:
 ```
 terraform init
 terraform plan 
@@ -151,7 +151,224 @@ VirtualNetworkGateway  Active   10.1.0.0/16       VirtualNetworkGateway  10.2.0.
 VirtualNetworkGateway  Active   10.1.0.0/16       VirtualNetworkGateway  10.2.0.5
 ```
 
+#### List of prefixes receivd by route-server
 
+```json
+>az network routeserver peering list-learned-routes --routeserver RouteServer --name CSR0 --resource-group RS
+{
+  "RouteServiceRole_IN_0": [
+    {
+      "asPath": "65555-65559",
+      "localAddress": "10.1.0.4",
+      "network": "10.2.0.0/16",
+      "nextHop": "10.1.1.5",
+      "origin": "EBgp",
+      "sourcePeer": "10.1.1.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555",
+      "localAddress": "10.1.0.4",
+      "network": "0.0.0.0/0",
+      "nextHop": "10.1.1.5",
+      "origin": "EBgp",
+      "sourcePeer": "10.1.1.5",
+      "weight": 32768
+    }
+  ],
+  "RouteServiceRole_IN_1": [
+    {
+      "asPath": "65555-65559",
+      "localAddress": "10.1.0.5",
+      "network": "10.2.0.0/16",
+      "nextHop": "10.1.1.5",
+      "origin": "EBgp",
+      "sourcePeer": "10.1.1.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555",
+      "localAddress": "10.1.0.5",
+      "network": "0.0.0.0/0",
+      "nextHop": "10.1.1.5",
+      "origin": "EBgp",
+      "sourcePeer": "10.1.1.5",
+      "weight": 32768
+    }
+  ],
+  "value": null
+}
+```
 
+#### List of prefixes received by VPN Gateway
 
+```json
+>az network vnet-gateway list-learned-routes --resource-group RS --name VPNGW
+{
+  "value": [
+    {
+      "asPath": "",
+      "localAddress": "10.2.0.4",
+      "network": "10.2.0.0/16",
+      "nextHop": null,
+      "origin": "Network",
+      "sourcePeer": "10.2.0.4",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.4",
+      "network": "10.0.0.0/16",
+      "nextHop": "192.168.100.0",
+      "origin": "EBgp",
+      "sourcePeer": "192.168.100.0",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.4",
+      "network": "10.0.0.0/16",
+      "nextHop": "10.2.0.5",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.4",
+      "network": "10.1.0.0/16",
+      "nextHop": "192.168.100.0",
+      "origin": "EBgp",
+      "sourcePeer": "192.168.100.0",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.4",
+      "network": "10.1.0.0/16",
+      "nextHop": "10.2.0.5",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555",
+      "localAddress": "10.2.0.4",
+      "network": "0.0.0.0/0",
+      "nextHop": "192.168.100.0",
+      "origin": "EBgp",
+      "sourcePeer": "192.168.100.0",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555",
+      "localAddress": "10.2.0.4",
+      "network": "0.0.0.0/0",
+      "nextHop": "10.2.0.5",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "",
+      "localAddress": "10.2.0.4",
+      "network": "192.168.100.0/32",
+      "nextHop": null,
+      "origin": "Network",
+      "sourcePeer": "10.2.0.4",
+      "weight": 32768
+    },
+    {
+      "asPath": "",
+      "localAddress": "10.2.0.4",
+      "network": "192.168.100.0/32",
+      "nextHop": "10.2.0.5",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "",
+      "localAddress": "10.2.0.5",
+      "network": "10.2.0.0/16",
+      "nextHop": null,
+      "origin": "Network",
+      "sourcePeer": "10.2.0.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.5",
+      "network": "10.0.0.0/16",
+      "nextHop": "192.168.100.0",
+      "origin": "EBgp",
+      "sourcePeer": "192.168.100.0",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.5",
+      "network": "10.0.0.0/16",
+      "nextHop": "10.2.0.4",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.4",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.5",
+      "network": "10.1.0.0/16",
+      "nextHop": "192.168.100.0",
+      "origin": "EBgp",
+      "sourcePeer": "192.168.100.0",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555-65515",
+      "localAddress": "10.2.0.5",
+      "network": "10.1.0.0/16",
+      "nextHop": "10.2.0.4",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.4",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555",
+      "localAddress": "10.2.0.5",
+      "network": "0.0.0.0/0",
+      "nextHop": "192.168.100.0",
+      "origin": "EBgp",
+      "sourcePeer": "192.168.100.0",
+      "weight": 32768
+    },
+    {
+      "asPath": "65555",
+      "localAddress": "10.2.0.5",
+      "network": "0.0.0.0/0",
+      "nextHop": "10.2.0.4",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.4",
+      "weight": 32768
+    },
+    {
+      "asPath": "",
+      "localAddress": "10.2.0.5",
+      "network": "192.168.100.0/32",
+      "nextHop": null,
+      "origin": "Network",
+      "sourcePeer": "10.2.0.5",
+      "weight": 32768
+    },
+    {
+      "asPath": "",
+      "localAddress": "10.2.0.5",
+      "network": "192.168.100.0/32",
+      "nextHop": "10.2.0.4",
+      "origin": "IBgp",
+      "sourcePeer": "10.2.0.4",
+      "weight": 32768
+    }
+  ]
+}
+```
 
