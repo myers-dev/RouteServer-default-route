@@ -1,10 +1,10 @@
 # Default route behavior in VPN Gateway and RouteServer scenario
-
+In the provided lab, we examined the result of the Default Route (BGP 0.0.0.0/0), originating from NVA on the Hub VNET and being advertised on both the Route Server and VPN Gateway over the IPSEC VPN.
 
 ## Overview
-In the provided lab, we examined the outcome of Default Route (BGP 0.0.0.0/0) that originated from NVA in the Hub VNET and was advertised on the Route Server and VPN Gateway over IPSEC VPN.
 
-All BGP peers have a default route artificially injected by using the "default-originate" statement. 
+
+All BGP peers have a default route artificially injected by using the "default-originate" statement on Cisco CSR. 
 ```cisco
 router bgp 65555
  bgp log-neighbor-changes
@@ -32,6 +32,13 @@ By using the os_profile / custom_data declaration, a CSR configuration is genera
 
 You must create SSH keys in advance and upload them to Azure SSH keys. The same holds true for usernames, passwords, and shared keys. See data.tf for details. 
 
+Resource Group | Keyvault / storage | Key
+------------ | ------------- | ---
+CloudShell | cs-keystore | adminusername
+CloudShell | cs-keystore | adminpassword
+CloudShell | ssh keys | desktop
+CloudSehll | cs-keystore | sharedkey
+
 ## Topology
 
 ![Topology](img=/../supplementals/topology.png)
@@ -49,11 +56,13 @@ Active routes can be extracted from the deployed VMs by using the active_routes.
 
 ## Observations
 
-There is no apparent difference between the general behavior and what is expected. There is no difference between hub, spoke and remote VNETs because default route is embedded in both. This, by the way, means that Route Server and VPN Gateway respect the default route. 
+There is no apparent difference between the observed behavior and what is expected. There is no difference between hub, spoke and remote VNETs because default route is installed in all of them. This, by the way, means that Route Server and VPN Gateway respect the default route. 
 
 For your reference, here are some of the outputs that we gathered.
  
-#### Cisco CSR = NVA
+#### Cisco CSR as an NVA
+
+As you see default route is present in BGP table as locally-originated route. Default route advertised to both RS and VPN gateway peers. 
 
 ```cisco
 CSR0#sh ip bgp summ
@@ -93,6 +102,33 @@ RPKI validation codes: V valid, I invalid, N Not found
  *    10.2.0.0/16      10.2.0.4                               0 65559 i
  *>                    10.2.0.5                               0 65559 i
 CSR0#
+
+CSR0#sh ip bgp 0.0.0.0/0
+BGP routing table entry for 0.0.0.0/0, version 5
+Paths: (1 available, no best path)
+  Advertised to update-groups:
+     2         
+  Refresh Epoch 1
+  Local, (default-originate)
+    0.0.0.0 from 0.0.0.0 (192.168.100.0)
+      Origin IGP, localpref 100, external
+      rx pathid: 0, tx pathid: 0x0
+      Updated on Nov 1 2021 02:50:22 UTC
+
+CSR0#sh bgp update-group 2
+
+BGP version 4 update-group 2, external, Address Family: IPv4 Unicast
+  BGP Update version : 14/0, messages 0, active RGs: 1
+  Unconditional default-originate
+  Topology: global, highest version: 14, tail marker: 14
+  Format state: Current working (OK, last minimum advertisement interval)
+                Refresh blocked (not in list, last not in list)
+  Update messages formatted 39, replicated 48, current 0, refresh 0, limit 1000, mss 1328, SSO is disabled
+  Number of NLRIs in the update sent: max 2, min 0
+  Minimum time between advertisement runs is 30 seconds
+  Has 4 members:
+   10.1.0.4         10.1.0.5         10.2.0.4         10.2.0.5        
+
 ```
 
 #### VM in the Spoke VNET
