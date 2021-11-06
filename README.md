@@ -153,7 +153,7 @@ VirtualNetworkGateway  Active   10.1.0.0/16       VirtualNetworkGateway  10.2.0.
 
 #### List of prefixes receivd by route-server
 
-```json
+```
 >az network routeserver peering list-learned-routes --routeserver RouteServer --name CSR0 --resource-group RS
 {
   "RouteServiceRole_IN_0": [
@@ -202,7 +202,7 @@ VirtualNetworkGateway  Active   10.1.0.0/16       VirtualNetworkGateway  10.2.0.
 
 #### List of prefixes received by VPN Gateway
 
-```json
+```
 >az network vnet-gateway list-learned-routes --resource-group RS --name VPNGW
 {
   "value": [
