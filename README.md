@@ -1,4 +1,4 @@
-# Default route handling in VPN Gateway and RouteServer scenario
+# Default route behavior in VPN Gateway and RouteServer scenario
 
 
 ## Overview
