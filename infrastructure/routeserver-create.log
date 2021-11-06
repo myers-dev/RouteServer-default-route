@@ -1,0 +1,63 @@
+LOCATION=eastus
+RG=RS
+CSRIPS=10.1.1.5
+SUBSCRIPTION=/subscriptions/6fd2b24c-1ffa-43ca-abc1-8127c30dcb39
+{
+  "publicIp": {
+    "ddosSettings": null,
+    "deleteOption": null,
+    "dnsSettings": null,
+    "etag": "W/\"044ca10b-88b4-40b1-bdd0-1b777936df09\"",
+    "extendedLocation": null,
+    "id": "/subscriptions/6fd2b24c-1ffa-43ca-abc1-8127c30dcb39/resourceGroups/RS/providers/Microsoft.Network/publicIPAddresses/RSPIP",
+    "idleTimeoutInMinutes": 4,
+    "ipAddress": "20.81.50.176",
+    "ipConfiguration": {
+      "etag": null,
+      "id": "/subscriptions/6fd2b24c-1ffa-43ca-abc1-8127c30dcb39/resourceGroups/RS/providers/Microsoft.Network/virtualHubs/RouteServer/ipConfigurations/Default",
+      "name": null,
+      "privateIpAddress": null,
+      "privateIpAllocationMethod": null,
+      "provisioningState": null,
+      "publicIpAddress": null,
+      "resourceGroup": "RS",
+      "subnet": null
+    },
+    "ipTags": [],
+    "linkedPublicIpAddress": null,
+    "location": "eastus",
+    "migrationPhase": null,
+    "name": "RSPIP",
+    "natGateway": null,
+    "provisioningState": "Succeeded",
+    "publicIpAddressVersion": "IPv4",
+    "publicIpAllocationMethod": "Static",
+    "publicIpPrefix": null,
+    "resourceGroup": "RS",
+    "resourceGuid": "a842eab5-b6ec-493c-bc01-dc3beaecdd29",
+    "servicePublicIpAddress": null,
+    "sku": {
+      "name": "Standard",
+      "tier": "Regional"
+    },
+    "tags": null,
+    "type": "Microsoft.Network/publicIPAddresses",
+    "zones": [
+      "1",
+      "2",
+      "3"
+    ]
+  }
+}
+10.1.1.5,0
+{
+  "connectionState": null,
+  "etag": "W/\"a0164b5d-8cc2-4fdc-a62e-991469cda38a\"",
+  "id": "/subscriptions/6fd2b24c-1ffa-43ca-abc1-8127c30dcb39/resourceGroups/RS/providers/Microsoft.Network/virtualHubs/RouteServer/bgpConnections/CSR0",
+  "name": "CSR0",
+  "peerAsn": 65555,
+  "peerIp": "10.1.1.5",
+  "provisioningState": "Succeeded",
+  "resourceGroup": "RS",
+  "type": "Microsoft.Network/virtualHubs/bgpConnections"
+}
