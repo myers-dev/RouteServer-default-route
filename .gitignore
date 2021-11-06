@@ -8,6 +8,11 @@
 **/.terraform.lock.hcl
 .terraform.lock.hcl
 
+
+**/*.log
+*.log
+infrastructure/*.log
+
 # Crash log files
 crash.log
 
